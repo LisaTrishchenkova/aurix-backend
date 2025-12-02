@@ -1,0 +1,6 @@
+@Aurix_HostAddress = http://localhost:5052
+
+GET {{Aurix_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
