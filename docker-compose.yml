@@ -1,17 +1,24 @@
-﻿version: "3.9"
-services:
-  aurix:
-    image: ${DOCKER_REGISTRY-}aurix
-    build:
-      context: .
-      dockerfile: Aurix/Dockerfile
-    ports:
-      - "8080:5000"
-    environment:
-      - ConnectionStrings__aurix_db=Host=postgres;Port=5432;Database=aurix_db;Username=postgres;Password=password
-    depends_on:
-      - postgres
-
+﻿services:
+  # aurix:
+  #   image: ${DOCKER_REGISTRY-}aurix
+  #   container_name: aurix-api
+  #   build:
+  #     context: .
+  #     dockerfile: Aurix/Dockerfile
+  #     args:
+  #       BUILD_CONFIGURATION: Debug  # ← ДОБАВИЛИ АРГУМЕНТ
+  #   ports:
+  #     - "8080:8080"  # Порт приложения
+  #     - "5000:5000"  # Порт для отладчика!
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development  # ← ДОБАВИЛИ
+  #     - DOTNET_USE_POLLING_FILE_WATCHER=1
+  #     - ConnectionStrings__aurix_db=Host=postgres;Port=5432;Database=aurix_db;Username=postgres;Password=password
+  #   volumes:
+  #     - ./Aurix:/app  # ← ДОБАВИЛИ для синхронизации кода
+  #     - ~/.nuget/packages:/root/.nuget/packages:ro
+  #   depends_on:
+  #     - postgres
 
   postgres:
     image: postgres:15
@@ -19,10 +26,10 @@ services:
       - POSTGRES_DB=aurix_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-    command: 
+    command:
       - "postgres"
       - "-c"
-      - "shared_preload_libraries=uuid-ossp" # 🔥 Включаем UUID расширение
+      - "shared_preload_libraries=uuid-ossp"
     ports:
       - "5432:5432"
     volumes:

@@ -7,9 +7,15 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Добавляем отладчик VS
+RUN apt-get update && \
+    apt-get install -y curl unzip && \
+    curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
+# Меняем на Debug для отладки!
+ARG BUILD_CONFIGURATION=Debug  # ← ИЗМЕНИЛИ ЗДЕСЬ
 WORKDIR /src
 COPY ["Aurix/Aurix.csproj", "Aurix/"]
 RUN dotnet restore "./Aurix/Aurix.csproj"
@@ -18,7 +24,7 @@ WORKDIR "/src/Aurix"
 RUN dotnet build "./Aurix.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Debug  # ← И ЗДЕСЬ
 RUN dotnet publish "./Aurix.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final

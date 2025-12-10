@@ -1,14 +1,22 @@
 using System.ComponentModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Aurix.Interfaces;
 using Aurix.Models.Requests;
 using Aurix.Models.Responses;
 
 namespace Aurix.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+        private readonly IJwtService _jwtService;
+
+        public AuthController(IJwtService jwtService)
+        {
+            _jwtService = jwtService;
+        }
 
         /// <summary>
         /// Ручка для входа
@@ -23,8 +31,16 @@ namespace Aurix.Controllers
             [FromBody] LoginRequest request
             )
         {
-
-            return Ok();
+            var userId = Guid.NewGuid();
+            var claims = _jwtService.CreateClaims(userId, request.Email);
+            var accessToken = _jwtService.GenerateAccessToken(claims);
+            var loginResponse = new LoginResponse
+            {
+                TokenAccess = accessToken,
+                TokenRefresh = "",
+                UserId = userId,
+            };
+            return Ok(loginResponse);
         }
 
         // ".../api/auth/registration"
@@ -47,6 +63,7 @@ namespace Aurix.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeResponse))]
         [HttpGet("me")]
+        [Authorize]
         public IActionResult Me()
         {
             return Ok();
