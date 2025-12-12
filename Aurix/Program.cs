@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Aurix.Interfaces;
 using Aurix.Services;
+using Aurix.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 namespace Aurix
 {
     public class Program
@@ -16,6 +18,8 @@ namespace Aurix
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.WebHost.UseUrls("http://*:5000");
             builder.Services.AddCors(options =>
@@ -152,7 +156,7 @@ namespace Aurix
                     ClockSkew = TimeSpan.Zero
                 };
 
-                 o.Events = new JwtBearerEvents
+                o.Events = new JwtBearerEvents
                 {
                     OnAuthenticationFailed = context =>
                     {
