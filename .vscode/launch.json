@@ -2,12 +2,56 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Aurix API",
+            "name": "Aurix API (http profile)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/Aurix/bin/Debug/net9.0/Aurix.dll",
-            "args": [],
+            "args": [
+                "--launch-profile", "http"
+            ],
+            "cwd": "${workspaceFolder}/Aurix",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Aurix API (https profile)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Aurix/bin/Debug/net9.0/Aurix.dll",
+            "args": [
+                "--launch-profile", "https"
+            ],
+            "cwd": "${workspaceFolder}/Aurix",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Aurix API (Docker profile)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Aurix/bin/Debug/net9.0/Aurix.dll",
+            "args": [
+                "--launch-profile", "Container (Dockerfile)"
+            ],
             "cwd": "${workspaceFolder}/Aurix",
             "stopAtEntry": false,
             "serverReadyAction": {
