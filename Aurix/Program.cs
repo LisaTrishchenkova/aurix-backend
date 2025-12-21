@@ -20,15 +20,17 @@ namespace Aurix
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll",
-                    policy =>
-                    {
-                        policy.AllowAnyOrigin()    // Любой origin
-                            .AllowAnyHeader()    // Любые заголовки
-                            .AllowAnyMethod();   // Любые методы
-                    });
-            });
+          {
+              options.AddPolicy("AllowFrontend",
+                  policy =>
+                  {
+                      policy.WithOrigins("https://aurix.aurix.app", "http://localhost:5001")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                  });
+          });
+
 
 
             // Add services to the container.
@@ -90,7 +92,7 @@ namespace Aurix
             var app = builder.Build();
 
             app.UseRouting();
-            app.UseCors("AllowAll");
+            app.UseCors("AllowFrontend");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
