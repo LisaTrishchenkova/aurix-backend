@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Aurix.Interfaces;
 using Aurix.Models.Entities;
