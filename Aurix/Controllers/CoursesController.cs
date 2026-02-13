@@ -84,6 +84,7 @@ namespace Aurix.Controllers
             var resualt = await _courseService.DeleteCourseAsync(id);
             if (!resualt)
                 return NotFound();
+
             return NoContent();
         }
 
