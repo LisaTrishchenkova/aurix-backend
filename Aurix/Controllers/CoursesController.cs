@@ -98,6 +98,7 @@ namespace Aurix.Controllers
             var course = await _courseService.UpdateCourseAsync(id, updateCourseDto);
             if (course == null)
                 return NotFound();
+
             return Ok(course);
         }
 
