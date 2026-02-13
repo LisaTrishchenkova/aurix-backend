@@ -11,10 +11,7 @@ using Aurix.Interfaces;
 using Aurix.Services;
 using Aurix.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading.Tasks;
+
 namespace Aurix
 {
     public class Program
