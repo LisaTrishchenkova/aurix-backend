@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Aurix.Models.Entities;
-using Aurix.Models.Requests;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace Aurix.Controllers
 {
     [ApiController]
@@ -30,7 +22,7 @@ namespace Aurix.Controllers
             try
             {
                 var course = await _courseService.CreateCourseAsync(createCourseDto);
-                return CreatedAtAction(nameof(GetCourseById), new { id = course.Id, course });
+                return CreatedAtAction(nameof(GetCourseById), new { id = course.Id }, course);
             }
             catch (System.Exception ex)
             {
@@ -84,6 +76,7 @@ namespace Aurix.Controllers
             var resualt = await _courseService.DeleteCourseAsync(id);
             if (!resualt)
                 return NotFound();
+
             return NoContent();
         }
 
@@ -98,6 +91,7 @@ namespace Aurix.Controllers
             var course = await _courseService.UpdateCourseAsync(id, updateCourseDto);
             if (course == null)
                 return NotFound();
+
             return Ok(course);
         }
 
