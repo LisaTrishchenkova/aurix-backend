@@ -4,7 +4,7 @@
     container_name: aurix-api
     build:
       context: .
-      dockerfile: Aurix/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8081:8080"
     environment:
@@ -16,7 +16,7 @@
 
   postgres:
     image: postgres:15
-    environment: 
+    environment:
       - POSTGRES_DB=aurix_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
