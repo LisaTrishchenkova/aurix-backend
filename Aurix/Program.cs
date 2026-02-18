@@ -62,7 +62,6 @@ namespace Aurix
                 //     Scheme = "Bearer"
                 // });
 
-
                 // c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 // {
                 //     {
