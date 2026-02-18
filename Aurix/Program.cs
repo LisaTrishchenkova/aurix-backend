@@ -33,7 +33,6 @@ namespace Aurix
           });
 
 
-
             // Add services to the container.
 
             builder.Services.AddControllers();
