@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using System.Collections;
 
 namespace Aurix.Models.Entities
 {
@@ -7,6 +7,8 @@ namespace Aurix.Models.Entities
         public Guid Id { get; set; }
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public string? Tags { get; set; }
+
+        public ICollection<Tag>? Tags { get; set; } = null!;
+        public ICollection<Section> Sections { get; set; } = null!;
     }
 }
