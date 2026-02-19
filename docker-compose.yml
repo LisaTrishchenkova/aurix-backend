@@ -16,6 +16,7 @@
 
   postgres:
     image: postgres:15
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=aurix_db
       - POSTGRES_USER=postgres
