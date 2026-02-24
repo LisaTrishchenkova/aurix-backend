@@ -1,3 +1,1 @@
 # Aurix-practice
-
-Test

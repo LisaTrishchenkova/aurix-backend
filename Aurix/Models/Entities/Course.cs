@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace Aurix.Models.Entities
 {
     public class Course

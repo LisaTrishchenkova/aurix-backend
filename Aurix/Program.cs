@@ -11,6 +11,8 @@ using Aurix.Interfaces;
 using Aurix.Services;
 using Aurix.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Aurix.Repositories;
+using Aurix.Interfaces.Section;
 
 namespace Aurix
 {
@@ -89,6 +91,8 @@ namespace Aurix
 
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseService>();
+            builder.Services.AddScoped<ISectionRepository, SectionRepository>();
+            builder.Services.AddScoped<ISectionService, SectionService>();
             var app = builder.Build();
 
             app.UseRouting();
