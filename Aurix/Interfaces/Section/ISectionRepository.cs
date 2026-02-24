@@ -1,4 +1,3 @@
-using System.Collections;
 using Aurix.Models.Entities;
 
 public interface ISectionRepository
