@@ -1,6 +1,4 @@
-using System.Collections;
 using Aurix.Models.DTOs;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Aurix.Interfaces.Section
 {
