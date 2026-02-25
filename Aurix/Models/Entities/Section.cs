@@ -8,5 +8,6 @@ namespace Aurix.Models.Entities
         public Guid CourseId { get; set; }
 
         public Course Course { get; set; } = null!;
+         public ICollection<Lesson> Lessons { get; set; }
     }
 }

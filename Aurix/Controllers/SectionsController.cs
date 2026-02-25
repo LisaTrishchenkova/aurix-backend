@@ -127,5 +127,30 @@ namespace Aurix.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("{sectionId}/lessons")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<LessonDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<SectionDto>>> GetLessonsBySectionId(
+            [FromRoute, Required] Guid sectionId
+        )
+        {
+            try
+            {
+                var result = await _sectionService.GetLessonssBySectionIdAsync(sectionId);
+                if (!result.Success)
+                {
+                    return StatusCode(result.StatusCode ?? 400, result.Message);
+                }
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ошибка сервера: {ex.Message}");
+            }
+        }
+
     }
 }
