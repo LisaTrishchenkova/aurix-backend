@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Models.Entities;
 using Aurix.Models.Responses;
+
 namespace Aurix.Controllers
 {
     [ApiController]
