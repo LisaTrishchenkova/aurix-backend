@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Aurix.Models.Entities
 {
     public class Course
@@ -7,6 +5,8 @@ namespace Aurix.Models.Entities
         public Guid Id { get; set; }
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public string? Tags { get; set; }
+
+        public ICollection<Tag>? Tags { get; set; } = null!;
+        public ICollection<Section> Sections { get; set; } = null!;
     }
 }
