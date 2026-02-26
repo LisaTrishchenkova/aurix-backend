@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Aurix.Models.DTOs;
 
 namespace Aurix.Controllers
 {
@@ -94,6 +95,30 @@ namespace Aurix.Controllers
                 return NotFound($"Не удалось обновить курс по id: {id}");
 
             return Ok(courseUpdated);
+        }
+
+        [HttpGet("{courseId}/sections")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SectionDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<SectionDto>>> GetSectionsByCourseId(
+            [FromRoute, Required] Guid courseId
+        )
+        {
+            try
+            {
+                var result = await _courseService.GetSectionsByCourseIdAsync(courseId);
+                if (!result.Success)
+                {
+                    return StatusCode(result.StatusCode ?? 400, result.Message);
+                }
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ошибка сервера: {ex.Message}");
+            }
         }
 
         // [HttpPatch("{id}")]

@@ -43,6 +43,34 @@ namespace Aurix.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Lesson", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("Lessons");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Section", b =>
                 {
                     b.Property<Guid>("Id")
@@ -117,6 +145,17 @@ namespace Aurix.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Lesson", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.Section", "Section")
+                        .WithMany("Lessons")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Section", b =>
                 {
                     b.HasOne("Aurix.Models.Entities.Course", "Course")
@@ -144,6 +183,11 @@ namespace Aurix.Migrations
                     b.Navigation("Sections");
 
                     b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Section", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }
