@@ -28,7 +28,7 @@ namespace Aurix
               options.AddPolicy("AllowFrontend",
                   policy =>
                   {
-                      policy.WithOrigins("https://aurix.aurix.app", "http://localhost:5001")
+                      policy.WithOrigins("https://aurix.aurix.app", "http://localhost:5001", "http://localhost:5173")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();

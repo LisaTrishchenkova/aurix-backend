@@ -22,7 +22,7 @@ namespace Aurix.Controllers
             [FromQuery] string? searchTerm,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10,
-            [FromQuery] int? categoryId = null,
+            [FromQuery] Guid? categoryId = null,
             [FromQuery] CoursesSortBy? sortBy = CoursesSortBy.Relevance)
         {
             try
