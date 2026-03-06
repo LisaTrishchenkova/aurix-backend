@@ -3,6 +3,7 @@ using Aurix.Models.Entities;
 using Aurix;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Aurix.Enums;
 
 public class CourseService : ICourseService
 {

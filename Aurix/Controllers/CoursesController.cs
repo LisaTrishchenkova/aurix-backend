@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Aurix.Enums;
 using Aurix.Models.DTOs;
 
 namespace Aurix.Controllers

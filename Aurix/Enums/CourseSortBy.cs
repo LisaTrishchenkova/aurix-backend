@@ -1,5 +1,8 @@
-public enum CoursesSortBy
+namespace Aurix.Enums
 {
-    Relevance,
-    Title
+    public enum CoursesSortBy
+    {
+        Relevance,
+        Title
+    }
 }
