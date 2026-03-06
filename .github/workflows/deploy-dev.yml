@@ -6,8 +6,16 @@ env:
   ECR_REPOSITORY: lisatrishchenkova/aurix-practice-backend
 
 on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
   push:
     branches: ["dev", "feature/*", "bugfix/*", "chore/*"]
+    paths:
+      - "Aurix/**"
+      - "Dockerfile"
+  pull_request:
+    branches: [dev]
     paths:
       - "Aurix/**"
       - "Dockerfile"
