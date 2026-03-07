@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Aurix.Enums;
 
 namespace Aurix.Models.Entities
 {
@@ -70,7 +71,9 @@ namespace Aurix.Models.Entities
                     .HasColumnType("uuid")
                     .HasDefaultValueSql("gen_random_uuid()");
                 entity.Property(e => e.IsDeleted);
-                entity.Property(e => e.IsPublished);
+                entity.Property(e => e.Status)
+                    .HasConversion<string>()
+                    .HasDefaultValue(CourseStatus.Draft);
                 entity.Property(e => e.CategoryId);
             }
             );

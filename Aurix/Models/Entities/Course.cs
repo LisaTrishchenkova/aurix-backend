@@ -1,3 +1,5 @@
+using Aurix.Enums;
+
 namespace Aurix.Models.Entities
 {
     public class Course
@@ -6,7 +8,7 @@ namespace Aurix.Models.Entities
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
         public bool IsDeleted { get; set; } = false;
-        public bool IsPublished { get; set; } = false;
+        public CourseStatus Status { get; set; }
         public Guid? CategoryId { get; set; }
 
 
