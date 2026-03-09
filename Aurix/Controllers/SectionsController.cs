@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using Aurix.Interfaces.Section;
 using Aurix.Models.DTOs;
