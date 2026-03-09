@@ -41,6 +41,7 @@ namespace Aurix.Repositories
             section.IsDeleted = true;
 
             _context.Sections.Update(section);
+            await _context.SaveChangesAsync();
 
                 return true;
             }
