@@ -89,7 +89,7 @@ namespace Aurix.Controllers
 
                 return NoContent();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
