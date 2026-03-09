@@ -13,7 +13,7 @@ namespace Aurix.Models.Entities
 
         public Guid? AuthorId { get; set; }
         public Author? Author { get; set; }
-        // public DateTime PublishedAt { get; set; }
+        public DateTime PublishedAt { get; set; }
 
 
         public ICollection<Tag>? Tags { get; set; } = null!;
