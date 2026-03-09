@@ -3,6 +3,8 @@ namespace Aurix.Enums
     public enum CoursesSortBy
     {
         Relevance,
-        Title
+        Title,
+        Date,
+        DateDesc 
     }
 }
