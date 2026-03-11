@@ -221,9 +221,9 @@ namespace Aurix.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Aurix.Models.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("Courses")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Author");
 
@@ -264,6 +264,11 @@ namespace Aurix.Migrations
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Author", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
                 {
                     b.Navigation("Courses");
                 });
