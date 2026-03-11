@@ -3,7 +3,6 @@ using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using Aurix.Interfaces.Section;
 using Aurix.Models.DTOs;
-using Aurix.Services;
 
 namespace Aurix.Controllers
 {
@@ -90,7 +89,7 @@ namespace Aurix.Controllers
 
                 return NoContent();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

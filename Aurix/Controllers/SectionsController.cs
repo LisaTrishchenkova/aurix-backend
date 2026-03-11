@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using Aurix.Interfaces.Section;
 using Aurix.Models.DTOs;
@@ -10,8 +9,8 @@ namespace Aurix.Controllers
     [Route("api/[controller]")]
     public class SectionsController : ControllerBase
     {
-        //Зарегистрировать не забыть в Program.cs
         private readonly ISectionService _sectionService;
+
         public SectionsController(ISectionService sectionService)
         {
             _sectionService = sectionService;
