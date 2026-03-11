@@ -1,5 +1,3 @@
-
-using System.Collections;
 using Aurix.Interfaces.Section;
 using Aurix.Models.DTOs;
 using Aurix.Models.Entities;
