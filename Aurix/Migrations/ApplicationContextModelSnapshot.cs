@@ -22,6 +22,23 @@ namespace Aurix.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Aurix.Models.Entities.Author", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Authors");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -46,6 +63,9 @@ namespace Aurix.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uuid");
 
@@ -57,8 +77,16 @@ namespace Aurix.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("boolean");
+                    b.Property<DateTime>("PublishedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("Draft");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -66,6 +94,8 @@ namespace Aurix.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
 
@@ -185,10 +215,17 @@ namespace Aurix.Migrations
 
             modelBuilder.Entity("Aurix.Models.Entities.Course", b =>
                 {
-                    b.HasOne("Aurix.Models.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("Aurix.Models.Entities.Author", "Author")
+                        .WithMany("Courses")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Aurix.Models.Entities.Category", "Category")
+                        .WithMany("Courses")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Author");
 
                     b.Navigation("Category");
                 });
@@ -224,6 +261,16 @@ namespace Aurix.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Author", b =>
+                {
+                    b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
+                {
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Course", b =>
