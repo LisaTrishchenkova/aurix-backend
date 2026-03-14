@@ -1,19 +1,14 @@
-
-
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Aurix.Interfaces;
 using Aurix.Services;
 using Aurix.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Repositories;
 using Aurix.Interfaces.Section;
+using Microsoft.OpenApi;
 
 namespace Aurix
 {
@@ -30,7 +25,6 @@ namespace Aurix
                   {
                       policy.WithOrigins(
                               "http://localhost:5001",
-                              "http://localhost:5173",
                               "https://aurix.dev.aurix.app",
                               "https://aurix.staging.aurix.app",
                               "https://aurix.aurix.app")
