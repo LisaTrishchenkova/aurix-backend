@@ -1,5 +1,3 @@
-# Aurix-practice
-
 ## Environments
 
 | Environment | URL                                  | Branch    |
