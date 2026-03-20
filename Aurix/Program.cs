@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Aurix.Repositories;
 using Aurix.Interfaces.Section;
 using Microsoft.OpenApi;
+using Prometheus;
 
 namespace Aurix
 {
@@ -245,8 +246,12 @@ namespace Aurix
             // app.UseAuthentication();
             // app.UseAuthorization();
 
+            app.UseHttpMetrics();
+            
             app.MapControllers();
 
+            app.MapMetrics();
+            
             app.Run();
         }
 
