@@ -96,6 +96,8 @@ namespace Aurix
 
             ConfigureDatabase(builder);
 
+            builder.Services.AddMetrics();
+
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseService>();
             builder.Services.AddScoped<ISectionRepository, SectionRepository>();
@@ -106,6 +108,10 @@ namespace Aurix
 
             app.UseCors("AllowFrontend");
             app.UseRouting();
+            app.UseHttpMetrics(options =>
+            {
+                options.ReduceStatusCodeCardinality();
+            });
 
             app.MapGet("/version", () => new
             {
@@ -246,16 +252,16 @@ namespace Aurix
             // app.UseAuthentication();
             // app.UseAuthorization();
 
-            app.UseHttpMetrics();
-            
+
+
             app.MapControllers();
-            
-            app.MapMetrics("/metrics").RequireHost("*:9090");
-            
+
+            app.MapMetrics().RequireHost("*:9090");
+
             app.Urls.Add("http://+:9090");
-            
+
             app.Urls.Add("http://+:8080");
-            
+
             app.Run();
         }
 
