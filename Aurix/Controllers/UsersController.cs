@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Models.Entities;
-using Aurix.Models.Responses;
+using Aurix.Models.Responses.UserResponse;
 
 namespace Aurix.Controllers
 {

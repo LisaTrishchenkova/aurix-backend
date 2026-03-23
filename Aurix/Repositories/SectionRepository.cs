@@ -1,6 +1,5 @@
-using System.Collections;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Aurix.Interfaces.Section;
 using Aurix.Models.Entities;
 
 namespace Aurix.Repositories

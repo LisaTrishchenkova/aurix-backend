@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Aurix.Models.DTOs;
-using Aurix;
-using Aurix.Models.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Aurix.Models.Requests;
+using Aurix.Models.Responses;
+
+namespace Aurix.Interfaces.Course;
 
 public interface ICourseService
 {

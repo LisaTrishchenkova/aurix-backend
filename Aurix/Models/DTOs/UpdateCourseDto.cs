@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Aurix.Models.DTOs;
-using Aurix.Models.Entities;
+
+namespace Aurix.Models.DTOs;
+
 public class UpdateCourseDto
 {
     [MinLength(2)]
@@ -9,5 +10,5 @@ public class UpdateCourseDto
     [MinLength(10)]
     public string? Description { get; set; }
 
-     public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();
+    public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();
 }
