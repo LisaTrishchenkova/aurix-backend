@@ -1,4 +1,4 @@
-namespace Aurix.Models.Responses
+namespace Aurix.Models.Responses.CourceResponse
 {
     public class CourseResponse
     {

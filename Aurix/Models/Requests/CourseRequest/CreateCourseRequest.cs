@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Aurix.Models.Requests
+namespace Aurix.Models.Requests.CourseRequest
 {
-    public class CreateCourseRequest()
+    public class CreateCourseRequest
     {
         [Required]
         [MaxLength(200, ErrorMessage = "Название не должно превышать 200 символов")]

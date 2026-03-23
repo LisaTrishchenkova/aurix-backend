@@ -1,6 +1,6 @@
 using Aurix.Models.DTOs;
 
-namespace Aurix.Interfaces.Section
+namespace Aurix.Interfaces.Lesson
 {
     public interface ILessonService
     {
