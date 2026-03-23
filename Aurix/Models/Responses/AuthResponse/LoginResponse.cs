@@ -1,11 +1,11 @@
-namespace Aurix.Models.Responses
+namespace Aurix.Models.Responses.AuthResponse
 {
     public class LoginResponse
     {
         public Guid UserId { get; set; }
 
-        public string TokenAccess { get; set; }
+        public required string TokenAccess { get; set; }
 
-        public string TokenRefresh { get; set; }
+        public string? TokenRefresh { get; set; }
     }
 }

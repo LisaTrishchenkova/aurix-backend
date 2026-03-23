@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Aurix.Models.Requests
+namespace Aurix.Models.Requests.CourseRequest
 {
-    public class UpdateCourseRequest()
+    public class UpdateCourseRequest
     {
         [MaxLength(200)]
         public string? Title { get; set; }

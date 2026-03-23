@@ -11,10 +11,13 @@ using Aurix.Repositories;
 using Aurix.Interfaces.Section;
 using Microsoft.OpenApi;
 using Prometheus;
+using Aurix.Interfaces.Course;
+using Aurix.Interfaces.Lesson;
+using Aurix.Services.Course;
 
 namespace Aurix
 {
-    public class Program
+    public abstract class Program
     {
         public static void Main(string[] args)
         {
@@ -244,7 +247,7 @@ namespace Aurix
                             ),
 
                         // Информация о всех зарегистрированных endpoint'ах
-                        Endpoints = app.Services.GetService<Microsoft.AspNetCore.Routing.EndpointDataSource>()?.Endpoints
+                        Endpoints = app.Services.GetService<EndpointDataSource>()?.Endpoints
                             .Select(e => e.DisplayName)
                             .Where(name => !string.IsNullOrEmpty(name))
                             .ToList() ?? new List<string?>(),

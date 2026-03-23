@@ -1,12 +1,9 @@
-using System.ComponentModel;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Aurix.Interfaces;
 using Aurix.Models.Entities;
-using Aurix.Models.Requests;
-using Aurix.Models.Responses;
+using Aurix.Models.Requests.AuthRequest;
+using Aurix.Models.Responses.AuthResponse;
 
 namespace Aurix.Controllers
 {
@@ -58,7 +55,7 @@ namespace Aurix.Controllers
             [FromBody] RegistrationRequest request
         )
         {
-            _applicationContext.Users.Add(new Models.Entities.User
+            _applicationContext.Users.Add(new User
             {
                 Name = request.Name,
                 Email = request.Email,

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Aurix.Models.DTOs;
-using Aurix.Models.Entities;
+
+namespace Aurix.Models.DTOs;
+
 public class CreateCourseDto
 {
     [Required]
