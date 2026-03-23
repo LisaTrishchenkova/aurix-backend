@@ -1,4 +1,7 @@
 using Aurix.Enums;
+
+namespace Aurix.Models.Requests;
+
 public class CourseSearchRequest
 {
     public string? SearchTerm { get; set; }

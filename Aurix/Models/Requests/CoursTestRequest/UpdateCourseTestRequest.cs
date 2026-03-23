@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-namespace Aurix.Models.Requests
+
+namespace Aurix.Models.Requests.CoursTestRequest
 {
     public class UpdateCourseTestRequest
     {
