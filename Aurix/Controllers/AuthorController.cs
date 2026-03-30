@@ -8,11 +8,11 @@ namespace Aurix.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthorController : ControllerBase
+public class AuthorsController : ControllerBase
 {
 	private readonly ApplicationContext _context;
 
-	public AuthorController(ApplicationContext context)
+	public AuthorsController(ApplicationContext context)
 	{
 		_context = context;
 	}
