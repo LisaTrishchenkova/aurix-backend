@@ -6,7 +6,7 @@ using Aurix.Models.Entities;
 namespace Aurix.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Categories")]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationContext _context;

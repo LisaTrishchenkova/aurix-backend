@@ -6,7 +6,7 @@ using Aurix.Models.DTOs;
 namespace Aurix.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Lessons")]
     public class LessonController(ILessonService lessonService) : ControllerBase
     {
         [HttpPost]
