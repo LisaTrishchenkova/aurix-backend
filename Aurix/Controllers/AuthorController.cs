@@ -7,7 +7,7 @@ using Aurix.Models.Entities;
 namespace Aurix.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Authors")]
 public class AuthorController : ControllerBase
 {
 	private readonly ApplicationContext _context;
