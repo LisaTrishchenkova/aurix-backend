@@ -5,6 +5,7 @@ namespace Aurix.Enums
         Relevance,
         Title,
         Date,
-        DateDesc 
+        Price,
+        DateDesc
     }
 }
