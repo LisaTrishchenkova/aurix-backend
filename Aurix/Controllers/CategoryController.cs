@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Models.DTOs;
@@ -7,6 +8,7 @@ namespace Aurix.Controllers
 {
     [ApiController]
     [Route("api/Categories")]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationContext _context;
