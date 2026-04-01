@@ -6,6 +6,7 @@ using Aurix.Models.Entities;
 
 namespace Aurix.Controllers;
 
+[Obsolete]
 [ApiController]
 [Route("api/[controller]")]
 public class AuthorsController : ControllerBase
