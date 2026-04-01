@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Interfaces;
 using Aurix.Interfaces.Course;
+using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
 using Aurix.Interfaces.Section;
 using Aurix.Models.Entities;
@@ -22,6 +23,8 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<ISectionService, SectionService>();
 		services.AddScoped<ILessonRepository, LessonRepository>();
 		services.AddScoped<ILessonService, LessonService>();
+		services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+		services.AddScoped<IEnrollmentService, EnrollmentService>();
 		services.AddScoped<IJwtService, JwtService>();
 
 		return services;

@@ -5,8 +5,21 @@
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
           <Format>cobertura,json,lcov</Format>
-          <Exclude>[xunit.*]*,[*.Tests]*,[*.Test]*,[Microsoft.*]*,[System.*]*</Exclude>
-          <Include>[Aurix*]*</Include>
+          <Include>[Aurix]*</Include>
+          <Exclude>
+            [xunit.*]*,
+            [*.Tests]*,
+            [*.Test]*,
+            [Microsoft.*]*,
+            [System.*]*,
+            [Aurix]*Migrations*,
+            [Aurix]*Models.Entities*,
+            [Aurix]*Models.DTOs*,
+            [Aurix]*Models.Requests*,
+            [Aurix]*Models.Responses*,
+            [Aurix]*Infrastructure*,
+            [Aurix]Aurix.Program
+          </Exclude>
           <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
         </Configuration>
       </DataCollector>
