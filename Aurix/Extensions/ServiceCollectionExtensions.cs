@@ -6,6 +6,7 @@ using Aurix.Interfaces.Course;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
 using Aurix.Interfaces.Section;
+using Aurix.Interfaces.Task;
 using Aurix.Models.Entities;
 using Aurix.Repositories;
 using Aurix.Services;
@@ -25,6 +26,9 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<ILessonService, LessonService>();
 		services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 		services.AddScoped<IEnrollmentService, EnrollmentService>();
+		services.AddScoped<ITaskRepository, TaskRepository>();
+		services.AddMediatR(cfg =>
+			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 		services.AddScoped<IJwtService, JwtService>();
 
 		return services;
