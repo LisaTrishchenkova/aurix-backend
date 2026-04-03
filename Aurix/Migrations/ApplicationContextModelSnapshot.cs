@@ -139,23 +139,6 @@ namespace Aurix.Migrations
                     b.ToTable("TaskSubmissions");
                 });
 
-            modelBuilder.Entity("Aurix.Models.Entities.Author", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Authors");
-                });
-
             modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -413,6 +396,12 @@ namespace Aurix.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("Student");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -453,7 +442,7 @@ namespace Aurix.Migrations
 
             modelBuilder.Entity("Aurix.Models.Entities.Course", b =>
                 {
-                    b.HasOne("Aurix.Models.Entities.Author", "Author")
+                    b.HasOne("Aurix.Models.Entities.User", "Author")
                         .WithMany("Courses")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -525,11 +514,6 @@ namespace Aurix.Migrations
                     b.Navigation("Submissions");
                 });
 
-            modelBuilder.Entity("Aurix.Models.Entities.Author", b =>
-                {
-                    b.Navigation("Courses");
-                });
-
             modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
                 {
                     b.Navigation("Courses");
@@ -545,6 +529,11 @@ namespace Aurix.Migrations
             modelBuilder.Entity("Aurix.Models.Entities.Section", b =>
                 {
                     b.Navigation("Lessons");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.User", b =>
+                {
+                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

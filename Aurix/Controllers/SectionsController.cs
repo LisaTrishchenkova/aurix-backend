@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Aurix.Interfaces.Section;
 using Aurix.Models.DTOs;
 
@@ -17,6 +18,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SectionDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -48,6 +50,7 @@ namespace Aurix.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -72,6 +75,7 @@ namespace Aurix.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -101,6 +105,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
