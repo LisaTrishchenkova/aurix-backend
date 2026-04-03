@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Aurix.Enums;
+using Aurix.Extensions;
 using Aurix.Interfaces.Course;
 using Aurix.Models.DTOs;
 using Aurix.Models.Requests;
@@ -69,30 +71,34 @@ namespace Aurix.Controllers
             }
         }
 
-        [HttpPut("{id}/publish")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PublishCourse([FromRoute] Guid id)
-        {
-            var result = await _courseService.PublishCourseAsync(id);
-
-            if (!result.Success)
-            {
-                return StatusCode(result.StatusCode ?? 400, new { error = result.Message });
-            }
-
-            return NoContent();
-        }
+        // [HttpPut("{id}/publish")]
+        // [ProducesResponseType(StatusCodes.Status204NoContent)]
+        // [ProducesResponseType(StatusCodes.Status404NotFound)]
+        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // public async Task<ActionResult> PublishCourse([FromRoute] Guid id)
+        // {
+        //     var result = await _courseService.PublishCourseAsync(id);
+        //
+        //     if (!result.Success)
+        //     {
+        //         return StatusCode(result.StatusCode ?? 400, new { error = result.Message });
+        //     }
+        //
+        //     return NoContent();
+        // }
 
         [HttpPost]
+        [Authorize(Roles = "Teacher,Admin")]
         public async Task<ActionResult<CourseDto>> CreateCourse(
             CreateCourseDto createCourseDto
         )
         {
             try
             {
-                var course = await _courseService.CreateCourseAsync(createCourseDto);
+	            var userId = User.GetUserId();
+	            if (userId == null)
+		            return Unauthorized();
+                var course = await _courseService.CreateCourseAsync(createCourseDto, userId.Value);
                 return CreatedAtAction(nameof(GetCourseById), new { id = course.Id }, course);
             }
             catch (System.Exception ex)
@@ -124,13 +130,17 @@ namespace Aurix.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCourseById(
             [FromRoute] Guid id
         )
         {
-            var resultDeleted = await _courseService.DeleteCourseAsync(id);
+	        var userId = User.GetUserId();
+	        if (userId == null)
+		        return Unauthorized();
+            var resultDeleted = await _courseService.DeleteCourseAsync(id, userId.Value);
             if (!resultDeleted)
                 return NotFound($"Не удалось удалить курс по id: {id}");
 
@@ -138,6 +148,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CourseDto>> UpdateCourse(
@@ -145,7 +156,10 @@ namespace Aurix.Controllers
             [FromBody] UpdateCourseDto updateCourseDto
         )
         {
-            var result = await _courseService.UpdateCourseAsync(id, updateCourseDto);
+	        var userId = User.GetUserId();
+	        if (userId == null)
+		        return Unauthorized();
+            var result = await _courseService.UpdateCourseAsync(id, updateCourseDto, userId.Value);
 
             if (!result.Success)
 	            return StatusCode(result.StatusCode ?? 400, new { error = result.Message });
@@ -178,11 +192,13 @@ namespace Aurix.Controllers
         }
 
         [HttpGet("my")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<CourseDto>))]
         public async Task<ActionResult<IList<CourseDto>>> GetMyCourses(
-	        [FromQuery] Guid authorId) // заменить потом на JWT
+	        )
         {
-	        var result = await _courseService.GetMyCoursesAsync(authorId);
+	        var userId = User.GetUserId();
+	        var result = await _courseService.GetMyCoursesAsync(userId.Value);
 
 	        if (!result.Success)
 		        return StatusCode(result.StatusCode ?? 400, new { error = result.Message });
@@ -191,6 +207,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPut("{id}/moderate")]
+        [Authorize(Roles = "Moderator,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -205,6 +222,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPut("{id}/approve")]
+        [Authorize(Roles = "Moderator,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -219,6 +237,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPut("{id}/reject")]
+        [Authorize(Roles = "Moderator,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
