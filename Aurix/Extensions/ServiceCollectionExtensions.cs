@@ -2,7 +2,6 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Interfaces;
-using Aurix.Interfaces;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
 using Aurix.Interfaces.Section;

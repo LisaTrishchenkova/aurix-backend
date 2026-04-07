@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Aurix.Enums;
-using Aurix.Interfaces.Course;
+using Aurix.Interfaces;
 using Aurix.Models.DTOs;
 using Aurix.Models.Entities;
 using Aurix.Models.Requests;
 using Aurix.Models.Responses;
 
-namespace Aurix.Services.Course;
+namespace Aurix.Services;
 
 public class CourseService : ICourseService
 {
