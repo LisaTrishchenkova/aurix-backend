@@ -2,7 +2,7 @@ using Aurix.Models.DTOs;
 using Aurix.Models.Requests;
 using Aurix.Models.Responses;
 
-namespace Aurix.Interfaces.Course;
+namespace Aurix.Interfaces;
 
 public interface ICourseService
 {
