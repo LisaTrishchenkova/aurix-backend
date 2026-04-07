@@ -1,7 +1,7 @@
 using Aurix.Models.DTOs;
 using Aurix.Models.Entities;
 
-namespace Aurix.Interfaces.Course;
+namespace Aurix.Interfaces;
 
 public interface ICourseRepository
 {
@@ -14,12 +14,15 @@ public interface ICourseRepository
     Task<IList<Models.Entities.Section>> GetSectionsByCourseIdAsync(Guid courseId);
     Task<IList<Models.Entities.Course>> GetByAuthorIdAsync(Guid userId);
 
-    IQueryable<Models.Entities.Course> GetCoursesQuery();
-    IQueryable<Models.Entities.Course> GetPublishedCoursesQuery();
-    Task<List<CourseDto>> GetCoursesWithProjectionAsync(
-        IQueryable<Models.Entities.Course> query,
-        int skip,
-        int take);
-    Task<int> GetTotalCountAsync(IQueryable<Models.Entities.Course> query);
-    System.Threading.Tasks.Task DeleteTagAsync(Tag existingTag);
+	IQueryable<Course> GetCoursesQuery();
+	IQueryable<Course> GetPublishedCoursesQuery();
+
+	Task<List<CourseDto>> GetCoursesWithProjectionAsync(
+		IQueryable<Course> query,
+		int skip,
+		int take);
+
+	Task<int> GetTotalCountAsync(IQueryable<Course> query);
+	System.Threading.Tasks.Task DeleteTagAsync(Tag existingTag);
+	Task<List<Course>> GetForReindexAsync(int skip, int take, CancellationToken ct);
 }

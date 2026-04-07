@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Interfaces;
-using Aurix.Interfaces.Course;
+using Aurix.Interfaces;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
 using Aurix.Interfaces.Section;
@@ -30,6 +30,7 @@ public static class ServiceCollectionExtensions
 		services.AddMediatR(cfg =>
 			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 		services.AddScoped<IJwtService, JwtService>();
+		services.AddScoped<CourseSearchService>();
 
 		return services;
 	}
@@ -39,8 +40,8 @@ public static class ServiceCollectionExtensions
 		IConfiguration configuration)
 	{
 		var connectionString = configuration.GetConnectionString("DefaultConnection")
-		                       ?? throw new InvalidOperationException(
-			                       "Connection string 'DefaultConnection' is not configured.");
+							   ?? throw new InvalidOperationException(
+								   "Connection string 'DefaultConnection' is not configured.");
 
 		services.AddDbContext<ApplicationContext>(options =>
 			options.UseNpgsql(
