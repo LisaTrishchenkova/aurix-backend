@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Aurix.Enums;
 
 namespace Aurix.Models.Requests.AuthRequest
 {
@@ -15,5 +16,7 @@ namespace Aurix.Models.Requests.AuthRequest
         [Required]
         [MinLength(8)]
         public required string Password { get; set; }
+
+        public UserRole Role { get; set; } = UserRole.Student;
     }
 }
