@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Aurix.Extensions;
 using Aurix.Interfaces.Lesson;
 using Aurix.Models.DTOs;
@@ -11,6 +12,7 @@ namespace Aurix.Controllers
     public class LessonController(ILessonService lessonService) : ControllerBase
     {
         [HttpPost]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(LessonDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -34,7 +36,7 @@ namespace Aurix.Controllers
                     new { id = result.Data!.Id },
                     result.Data);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 var message = ex.Message;
                 return StatusCode(500, message);
@@ -42,6 +44,7 @@ namespace Aurix.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LessonDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -59,13 +62,14 @@ namespace Aurix.Controllers
 
                 return Ok(result.Data);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -81,7 +85,7 @@ namespace Aurix.Controllers
 
                 return NoContent();
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -89,6 +93,7 @@ namespace Aurix.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Teacher,Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,7 +114,7 @@ namespace Aurix.Controllers
 
                 return Ok(result.Data);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
