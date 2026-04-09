@@ -290,6 +290,34 @@ namespace Aurix.Migrations
                     b.ToTable("Enrollments");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Favorite", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId", "CourseId")
+                        .IsUnique();
+
+                    b.ToTable("Favorites");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Lesson", b =>
                 {
                     b.Property<Guid>("Id")
@@ -458,6 +486,25 @@ namespace Aurix.Migrations
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Enrollment", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Aurix.Models.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Favorite", b =>
                 {
                     b.HasOne("Aurix.Models.Entities.Course", "Course")
                         .WithMany()
