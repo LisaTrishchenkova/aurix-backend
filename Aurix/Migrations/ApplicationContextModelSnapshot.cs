@@ -51,6 +51,11 @@ namespace Aurix.Migrations
                     b.PrimitiveCollection<string>("Hints")
                         .HasColumnType("jsonb");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsRequired")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -471,7 +476,7 @@ namespace Aurix.Migrations
                     b.HasOne("Aurix.Models.DTOs.Tasks.TaskEntity", "Task")
                         .WithMany("Submissions")
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Aurix.Models.Entities.User", "User")
