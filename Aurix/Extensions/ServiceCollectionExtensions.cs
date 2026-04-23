@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Aurix.Interfaces;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
+using Aurix.Interfaces.Review;
 using Aurix.Interfaces.Section;
 using Aurix.Interfaces.Task;
 using Aurix.Interfaces.User;
@@ -35,6 +36,8 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<IJwtService, JwtService>();
 		services.AddScoped<CourseSearchService>();
 		services.AddScoped<ILessonProgressRepository, LessonProgressRepository>();
+		services.AddScoped<IReviewRepository, ReviewRepository>();
+		services.AddScoped<IReviewService, ReviewService>();
 
 		return services;
 	}
