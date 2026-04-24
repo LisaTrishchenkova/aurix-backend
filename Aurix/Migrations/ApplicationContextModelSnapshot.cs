@@ -395,6 +395,55 @@ namespace Aurix.Migrations
                     b.ToTable("LessonProgresses");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Question", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("AnswerText")
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
+                    b.Property<DateTime?>("AnsweredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("AnsweredById")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnsweredById");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("Questions");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Review", b =>
                 {
                     b.Property<Guid>("Id")
@@ -657,6 +706,32 @@ namespace Aurix.Migrations
                     b.Navigation("Lesson");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Question", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.User", "AnsweredBy")
+                        .WithMany()
+                        .HasForeignKey("AnsweredById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Aurix.Models.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Aurix.Models.Entities.Lesson", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AnsweredBy");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Review", b =>
