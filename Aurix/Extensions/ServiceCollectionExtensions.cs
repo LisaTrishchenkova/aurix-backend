@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Aurix.Interfaces;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
+using Aurix.Interfaces.Notification;
 using Aurix.Interfaces.Question;
 using Aurix.Interfaces.Review;
 using Aurix.Interfaces.Section;
@@ -41,6 +42,8 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<IReviewService, ReviewService>();
 		services.AddScoped<IQuestionRepository, QuestionRepository>();
 		services.AddScoped<IQuestionService, QuestionService>();
+		services.AddScoped<INotificationRepository, NotificationRepository>();
+		services.AddScoped<INotificationService, NotificationService>();
 
 		return services;
 	}

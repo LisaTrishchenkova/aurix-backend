@@ -1,4 +1,6 @@
+using Aurix.Enums;
 using Aurix.Interfaces.Lesson;
+using Aurix.Interfaces.Notification;
 using Aurix.Interfaces.Question;
 using Aurix.Models.DTOs.Question;
 using Aurix.Models.Entities;
@@ -9,26 +11,24 @@ public class QuestionService : IQuestionService
 {
 	private readonly IQuestionRepository _questionRepository;
 	private readonly ILessonRepository _lessonRepository;
+	private readonly INotificationService _notificationService;
 	private readonly ILogger<QuestionService> _logger;
 
 	public QuestionService(
 		IQuestionRepository questionRepository,
 		ILessonRepository lessonRepository,
+		INotificationService notificationService,
 		ILogger<QuestionService> logger)
 	{
 		_questionRepository = questionRepository;
 		_lessonRepository = lessonRepository;
+		_notificationService = notificationService;
 		_logger = logger;
 	}
 
 	public async Task<ServiceResult<QuestionDto>> CreateQuestionAsync(Guid lessonId, Guid userId, CreateQuestionDto dto)
 	{
-		if (string.IsNullOrWhiteSpace(dto.Text))
-			return ServiceResult<QuestionDto>.Fail(
-				"Текст вопроса не может быть пустым",
-				StatusCodes.Status400BadRequest);
-
-		var lesson = await _lessonRepository.GetByIdAsync(lessonId);
+		var lesson = await _lessonRepository.GetByIdWithSectionAsync(lessonId);
 		if (lesson == null)
 			return ServiceResult<QuestionDto>.Fail(
 				$"Урок с id {lessonId} не найден",
@@ -44,6 +44,19 @@ public class QuestionService : IQuestionService
 
 		var created = await _questionRepository.AddAsync(question);
 		var full = await _questionRepository.GetByIdAsync(created.Id);
+
+		// уведомляем учителя курса если он не тот же пользователь
+		var courseAuthorId = lesson.Section?.Course?.AuthorId;
+		if (courseAuthorId.HasValue && courseAuthorId.Value != userId)
+		{
+			await _notificationService.SendAsync(
+				courseAuthorId.Value,
+				"Новый вопрос к уроку",
+				$"Студент задал вопрос в уроке «{lesson.Title}»",
+				NotificationType.NewQuestion,
+				created.Id);
+		}
+
 		return ServiceResult<QuestionDto>.Ok(MapToDto(full!));
 	}
 
@@ -79,6 +92,14 @@ public class QuestionService : IQuestionService
 
 		var updated = await _questionRepository.UpdateAsync(question);
 		var full = await _questionRepository.GetByIdAsync(updated.Id);
+
+		await _notificationService.SendAsync(
+			question.AuthorId,
+			"Ответ на ваш вопрос",
+			$"Преподаватель ответил на ваш вопрос в уроке",
+			NotificationType.QuestionAnswered,
+			question.Id);
+
 		return ServiceResult<QuestionDto>.Ok(MapToDto(full!));
 	}
 
