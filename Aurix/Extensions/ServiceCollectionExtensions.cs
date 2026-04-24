@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Interfaces;
+using Aurix.Interfaces.Certificate;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
 using Aurix.Interfaces.Notification;
@@ -44,6 +45,8 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<IQuestionService, QuestionService>();
 		services.AddScoped<INotificationRepository, NotificationRepository>();
 		services.AddScoped<INotificationService, NotificationService>();
+		services.AddScoped<ICertificateRepository, CertificateRepository>();
+		services.AddScoped<ICertificateService, CertificateService>();
 
 		return services;
 	}
