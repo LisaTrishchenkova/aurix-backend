@@ -458,6 +458,9 @@ namespace Aurix.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<Guid?>("RelatedCourseId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("RelatedEntityId")
                         .HasColumnType("uuid");
 
