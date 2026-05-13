@@ -1,10 +1,13 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Aurix.Features;
 using Aurix.Interfaces;
+using Aurix.Interfaces.Admin;
 using Aurix.Interfaces.Certificate;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
+using Aurix.Interfaces.Moderation;
 using Aurix.Interfaces.Notification;
 using Aurix.Interfaces.Question;
 using Aurix.Interfaces.Review;
@@ -47,6 +50,9 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<INotificationService, NotificationService>();
 		services.AddScoped<ICertificateRepository, CertificateRepository>();
 		services.AddScoped<ICertificateService, CertificateService>();
+		services.AddScoped<IAdminService, AdminService>();
+		services.AddScoped<IModerationService, ModerationService>();
+		services.AddHostedService<ModerationCleanupJob>();
 
 		return services;
 	}
