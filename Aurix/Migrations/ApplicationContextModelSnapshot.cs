@@ -307,6 +307,36 @@ namespace Aurix.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.CourseReviewHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Decision")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ModeratorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ModeratorId");
+
+                    b.ToTable("CourseReviewHistories");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Enrollment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -648,8 +678,7 @@ namespace Aurix.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<string>("BlockReason")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("BlockedAt")
                         .HasColumnType("timestamp with time zone");
@@ -665,9 +694,7 @@ namespace Aurix.Migrations
                         .HasColumnType("character varying(150)");
 
                     b.Property<bool>("IsBlocked")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -777,6 +804,25 @@ namespace Aurix.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Reviewer");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.CourseReviewHistory", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Aurix.Models.Entities.User", "Moderator")
+                        .WithMany()
+                        .HasForeignKey("ModeratorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Moderator");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Enrollment", b =>
