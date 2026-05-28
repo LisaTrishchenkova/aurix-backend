@@ -307,6 +307,76 @@ namespace Aurix.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.CourseDraft", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("CertificateEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CoverImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("FullDescription")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("Beginner");
+
+                    b.Property<decimal>("Price")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("numeric(10,2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("Draft");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseDrafts");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.CourseReviewHistory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -335,6 +405,160 @@ namespace Aurix.Migrations
                     b.HasIndex("ModeratorId");
 
                     b.ToTable("CourseReviewHistories");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftLesson", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("DraftSectionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("OrderIndex")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid?>("OriginalLessonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DraftSectionId");
+
+                    b.ToTable("DraftLessons");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("DraftId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("OrderIndex")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid?>("OriginalSectionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DraftId");
+
+                    b.ToTable("DraftSections");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("DraftId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DraftId");
+
+                    b.ToTable("DraftTags");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftTask", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("CorrectAnswer")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<int?>("CorrectIndex")
+                        .HasColumnType("integer");
+
+                    b.PrimitiveCollection<string>("CorrectIndexes")
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid>("DraftLessonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Explanation")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<bool>("IsRequired")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.PrimitiveCollection<string>("Options")
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("OrderIndex")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid?>("OriginalTaskId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Points")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DraftLessonId");
+
+                    b.ToTable("DraftTasks");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Enrollment", b =>
@@ -631,6 +855,9 @@ namespace Aurix.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -806,6 +1033,25 @@ namespace Aurix.Migrations
                     b.Navigation("Reviewer");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.CourseDraft", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Aurix.Models.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.CourseReviewHistory", b =>
                 {
                     b.HasOne("Aurix.Models.Entities.Course", "Course")
@@ -823,6 +1069,50 @@ namespace Aurix.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Moderator");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftLesson", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.DraftSection", "DraftSection")
+                        .WithMany("Lessons")
+                        .HasForeignKey("DraftSectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DraftSection");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftSection", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.CourseDraft", "Draft")
+                        .WithMany("Sections")
+                        .HasForeignKey("DraftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Draft");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftTag", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.CourseDraft", "Draft")
+                        .WithMany("Tags")
+                        .HasForeignKey("DraftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Draft");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftTask", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.DraftLesson", "DraftLesson")
+                        .WithMany("Tasks")
+                        .HasForeignKey("DraftLessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DraftLesson");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Enrollment", b =>
@@ -994,6 +1284,23 @@ namespace Aurix.Migrations
                     b.Navigation("Sections");
 
                     b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.CourseDraft", b =>
+                {
+                    b.Navigation("Sections");
+
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftLesson", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.DraftSection", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Section", b =>

@@ -5,6 +5,7 @@ using Aurix.Features;
 using Aurix.Interfaces;
 using Aurix.Interfaces.Admin;
 using Aurix.Interfaces.Certificate;
+using Aurix.Interfaces.DraftCourse;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
 using Aurix.Interfaces.Moderation;
@@ -53,7 +54,8 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<IAdminService, AdminService>();
 		services.AddScoped<IModerationService, ModerationService>();
 		services.AddHostedService<ModerationCleanupJob>();
-
+		services.AddScoped<ICourseDraftRepository, CourseDraftRepository>();
+		services.AddScoped<ICourseDraftService, CourseDraftService>();
 		return services;
 	}
 
