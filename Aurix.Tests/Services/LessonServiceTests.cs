@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Aurix.Interfaces.Certificate;
 using Aurix.Interfaces.Lesson;
 using Aurix.Models.DTOs;
 using Aurix.Models.Entities;
@@ -14,10 +16,18 @@ public class LessonServiceTests
 	private readonly LessonService _sut;
 	private readonly Mock<ILessonRepository> _repoMock = new();
 	private readonly Mock<ILogger<LessonService>> _loggerMock = new();
+	private readonly Mock<ILessonProgressRepository> _progressMock = new();
+	private readonly Mock<ICertificateService> _mock = new();
+	private readonly ApplicationContext _context;
 
 	public LessonServiceTests()
 	{
-		_sut = new LessonService(_repoMock.Object, _loggerMock.Object);
+		var options = new DbContextOptionsBuilder<ApplicationContext>()
+			.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+			.Options;
+		_context = new ApplicationContext(options);
+
+	 _sut = new LessonService(_repoMock.Object, _loggerMock.Object, _progressMock.Object, _context, _mock.Object);
 	}
 
 	[Fact]
@@ -48,6 +58,7 @@ public class LessonServiceTests
 			Title = "Урок 1",
 			Content = "Content",
 			Description = "Description"
+
 		};
 
 		_repoMock

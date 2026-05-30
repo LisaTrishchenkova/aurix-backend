@@ -1,11 +1,20 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Aurix.Features;
 using Aurix.Interfaces;
+using Aurix.Interfaces.Admin;
+using Aurix.Interfaces.Certificate;
+using Aurix.Interfaces.DraftCourse;
 using Aurix.Interfaces.Enrollment;
 using Aurix.Interfaces.Lesson;
+using Aurix.Interfaces.Moderation;
+using Aurix.Interfaces.Notification;
+using Aurix.Interfaces.Question;
+using Aurix.Interfaces.Review;
 using Aurix.Interfaces.Section;
 using Aurix.Interfaces.Task;
+using Aurix.Interfaces.User;
 using Aurix.Models.Entities;
 using Aurix.Repositories;
 using Aurix.Services;
@@ -26,11 +35,27 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 		services.AddScoped<IEnrollmentService, EnrollmentService>();
 		services.AddScoped<ITaskRepository, TaskRepository>();
+		services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+		services.AddScoped<IFavoriteService, FavoriteService>();
+		services.AddScoped<IFileStorageService, LocalFileStorageService>();
 		services.AddMediatR(cfg =>
 			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 		services.AddScoped<IJwtService, JwtService>();
 		services.AddScoped<CourseSearchService>();
-
+		services.AddScoped<ILessonProgressRepository, LessonProgressRepository>();
+		services.AddScoped<IReviewRepository, ReviewRepository>();
+		services.AddScoped<IReviewService, ReviewService>();
+		services.AddScoped<IQuestionRepository, QuestionRepository>();
+		services.AddScoped<IQuestionService, QuestionService>();
+		services.AddScoped<INotificationRepository, NotificationRepository>();
+		services.AddScoped<INotificationService, NotificationService>();
+		services.AddScoped<ICertificateRepository, CertificateRepository>();
+		services.AddScoped<ICertificateService, CertificateService>();
+		services.AddScoped<IAdminService, AdminService>();
+		services.AddScoped<IModerationService, ModerationService>();
+		services.AddHostedService<ModerationCleanupJob>();
+		services.AddScoped<ICourseDraftRepository, CourseDraftRepository>();
+		services.AddScoped<ICourseDraftService, CourseDraftService>();
 		return services;
 	}
 
