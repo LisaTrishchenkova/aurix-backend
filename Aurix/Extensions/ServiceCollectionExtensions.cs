@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Aurix.Features;
 using Aurix.Interfaces;
 using Aurix.Interfaces.Admin;
+using Aurix.Interfaces.Balance;
 using Aurix.Interfaces.Certificate;
 using Aurix.Interfaces.DraftCourse;
 using Aurix.Interfaces.Enrollment;
@@ -56,6 +57,8 @@ public static class ServiceCollectionExtensions
 		services.AddHostedService<ModerationCleanupJob>();
 		services.AddScoped<ICourseDraftRepository, CourseDraftRepository>();
 		services.AddScoped<ICourseDraftService, CourseDraftService>();
+		services.AddScoped<IBalanceRepository, BalanceRepository>();
+		services.AddScoped<IBalanceService, BalanceService>();
 		return services;
 	}
 
