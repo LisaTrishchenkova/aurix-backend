@@ -891,6 +891,59 @@ namespace Aurix.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<Guid?>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsRefunded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid?>("OriginalTransactionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("PlatformAmount")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal?>("TeacherAmount")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("OriginalTransactionId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -899,6 +952,11 @@ namespace Aurix.Migrations
 
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("text");
+
+                    b.Property<decimal>("Balance")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("numeric(10,2)")
+                        .HasDefaultValue(0m);
 
                     b.Property<string>("Bio")
                         .HasMaxLength(500)
@@ -1267,6 +1325,31 @@ namespace Aurix.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Transaction", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Aurix.Models.Entities.Transaction", "OriginalTransaction")
+                        .WithMany()
+                        .HasForeignKey("OriginalTransactionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Aurix.Models.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("OriginalTransaction");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Aurix.Models.DTOs.Tasks.TaskEntity", b =>
