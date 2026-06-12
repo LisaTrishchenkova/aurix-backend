@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Aurix.Features;
 using Aurix.Interfaces;
+using Aurix.Interfaces.Achievement;
 using Aurix.Interfaces.Admin;
 using Aurix.Interfaces.Balance;
 using Aurix.Interfaces.Certificate;
@@ -15,6 +16,7 @@ using Aurix.Interfaces.Question;
 using Aurix.Interfaces.Review;
 using Aurix.Interfaces.Section;
 using Aurix.Interfaces.Task;
+using Aurix.Interfaces.Teacher;
 using Aurix.Interfaces.User;
 using Aurix.Models.Entities;
 using Aurix.Repositories;
@@ -59,6 +61,10 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<ICourseDraftService, CourseDraftService>();
 		services.AddScoped<IBalanceRepository, BalanceRepository>();
 		services.AddScoped<IBalanceService, BalanceService>();
+		services.AddScoped<ITeacherRepository, TeacherRepository>();
+		services.AddScoped<ITeacherService, TeacherService>();
+		services.AddScoped<IAchievementRepository, AchievementRepository>();
+		services.AddScoped<IAchievementService, AchievementService>();
 		return services;
 	}
 

@@ -144,6 +144,123 @@ namespace Aurix.Migrations
                     b.ToTable("TaskSubmissions");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Achievement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Achievements");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000001"),
+                            Code = "first_lesson",
+                            Description = "Завершил свой первый урок",
+                            Icon = "🎯",
+                            Title = "Первый шаг"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000002"),
+                            Code = "lesson_5",
+                            Description = "Завершил 5 уроков",
+                            Icon = "🔥",
+                            Title = "На разгоне"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000003"),
+                            Code = "lesson_10",
+                            Description = "Завершил 10 уроков",
+                            Icon = "⚡",
+                            Title = "В потоке"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000004"),
+                            Code = "lesson_50",
+                            Description = "Завершил 50 уроков",
+                            Icon = "🏃",
+                            Title = "Марафонец"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000005"),
+                            Code = "first_enrollment",
+                            Description = "Записался на первый курс",
+                            Icon = "📚",
+                            Title = "Студент"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000006"),
+                            Code = "first_course",
+                            Description = "Завершил свой первый курс",
+                            Icon = "🎓",
+                            Title = "Выпускник"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000007"),
+                            Code = "course_3",
+                            Description = "Завершил 3 курса",
+                            Icon = "🏆",
+                            Title = "Многостаночник"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000008"),
+                            Code = "first_certificate",
+                            Description = "Получил первый сертификат",
+                            Icon = "📜",
+                            Title = "Дипломант"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000009"),
+                            Code = "first_review",
+                            Description = "Оставил свой первый отзыв",
+                            Icon = "✍️",
+                            Title = "Критик"
+                        },
+                        new
+                        {
+                            Id = new Guid("a1000000-0000-0000-0000-000000000010"),
+                            Code = "perfect_score",
+                            Description = "Завершил курс с прогрессом 100%",
+                            Icon = "⭐",
+                            Title = "Отличник"
+                        });
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1010,6 +1127,34 @@ namespace Aurix.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.UserAchievement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<Guid>("AchievementId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EarnedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AchievementId");
+
+                    b.HasIndex("UserId", "AchievementId")
+                        .IsUnique();
+
+                    b.ToTable("UserAchievements");
+                });
+
             modelBuilder.Entity("Aurix.Models.DTOs.Tasks.TaskEntity", b =>
                 {
                     b.HasOne("Aurix.Models.Entities.Lesson", "Lesson")
@@ -1352,9 +1497,33 @@ namespace Aurix.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.UserAchievement", b =>
+                {
+                    b.HasOne("Aurix.Models.Entities.Achievement", "Achievement")
+                        .WithMany("UserAchievements")
+                        .HasForeignKey("AchievementId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Aurix.Models.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Achievement");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Aurix.Models.DTOs.Tasks.TaskEntity", b =>
                 {
                     b.Navigation("Submissions");
+                });
+
+            modelBuilder.Entity("Aurix.Models.Entities.Achievement", b =>
+                {
+                    b.Navigation("UserAchievements");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.Category", b =>
