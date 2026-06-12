@@ -37,12 +37,5 @@ jobs:
           script: |
             cd /opt/aurix
             docker load < image.tar.gz
-            docker stop aurix-api || true
-            docker rm aurix-api || true
-            docker run -d \
-              --name aurix-api \
-              --restart unless-stopped \
-              -p 127.0.0.1:8000:8000 \
-              --env-file .env \
-              aurix-api:latest
+            docker compose up -d --no-build
             rm image.tar.gz
