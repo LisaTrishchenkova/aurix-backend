@@ -471,6 +471,12 @@ namespace Aurix.Migrations
                         .HasColumnType("numeric(10,2)")
                         .HasDefaultValue(0m);
 
+                    b.Property<DateTime?>("ReviewStartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ReviewerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -490,6 +496,8 @@ namespace Aurix.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("ReviewerId");
 
                     b.ToTable("CourseDrafts");
                 });
@@ -1250,9 +1258,15 @@ namespace Aurix.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Aurix.Models.Entities.User", "Reviewer")
+                        .WithMany()
+                        .HasForeignKey("ReviewerId");
+
                     b.Navigation("Author");
 
                     b.Navigation("Course");
+
+                    b.Navigation("Reviewer");
                 });
 
             modelBuilder.Entity("Aurix.Models.Entities.CourseReviewHistory", b =>

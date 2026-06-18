@@ -6,6 +6,7 @@ namespace Aurix.Enums
         Title,
         Date,
         Price,
-        DateDesc
+        DateDesc,
+        Popular
     }
 }
