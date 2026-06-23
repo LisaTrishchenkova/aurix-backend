@@ -17,7 +17,6 @@ using Aurix.Interfaces.Review;
 using Aurix.Interfaces.Section;
 using Aurix.Interfaces.Task;
 using Aurix.Interfaces.Teacher;
-using Aurix.Interfaces.User;
 using Aurix.Models.Entities;
 using Aurix.Repositories;
 using Aurix.Services;
@@ -40,7 +39,6 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<ITaskRepository, TaskRepository>();
 		services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 		services.AddScoped<IFavoriteService, FavoriteService>();
-		services.AddScoped<IFileStorageService, LocalFileStorageService>();
 		services.AddMediatR(cfg =>
 			cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 		services.AddScoped<IJwtService, JwtService>();
