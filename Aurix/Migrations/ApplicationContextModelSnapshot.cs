@@ -756,6 +756,22 @@ namespace Aurix.Migrations
                     b.ToTable("Favorites");
                 });
 
+            modelBuilder.Entity("Aurix.Models.Entities.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<byte[]>("ImageBytes")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Aurix.Models.Entities.Lesson", b =>
                 {
                     b.Property<Guid>("Id")
